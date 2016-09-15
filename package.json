@@ -1,0 +1,36 @@
+{
+  "name": "react-2048",
+  "version": "1.0.0",
+  "description": "Starter Kit for React + Redux application with Webpack",
+  "main": "",
+  "scripts": {
+    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "react",
+    "redux",
+    "webpack",
+    "enzyme",
+    "eslint"
+  ],
+  "author": "Emilien MURATON",
+  "dependencies": {
+    "immutable": "3.8.1",
+    "react": "15.3.1",
+    "react-dom": "15.3.1",
+    "react-redux": "4.4.5",
+    "react-router": "4.0.0-2",
+    "redux": "3.6.0",
+    "redux-thunk": "2.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.14.0",
+    "babel-loader": "6.2.5",
+    "airbnb-style": "2.0.0",
+    "webpack": "1.13.2",
+    "webpack-dev-server": "1.15.2",
+    "enzyme": "2.4.1"
+  }
+}
