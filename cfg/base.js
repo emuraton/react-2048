@@ -1,22 +1,21 @@
 var path = require('path');
-var port = 8000;
+var port = 3000;
 var srcPath = path.join(__dirname, '/../src');
-var publicPath = '/assets/';
 
 module.exports = {
   port: port,
   debug: true,
   output: {
-    path: path.join(__dirname, '/../dist/assets'),
+    path: path.join(__dirname, '/../dist'),
     filename: 'app.js',
-    publicPath: publicPath
+    publicPath: '/dist/'
   },
   devServer: {
     contentBase: './src/',
     historyApiFallback: true,
     hot: true,
     port: port,
-    publicPath: publicPath,
+    publicPath: '/dist/',
     noInfo: false
   },
   resolve: {
