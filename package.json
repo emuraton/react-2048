@@ -5,6 +5,7 @@
   "main": "",
   "scripts": {
     "start": "node devServer.js --env=dev",
+    "lint": "eslint ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "",
