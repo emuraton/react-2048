@@ -1,6 +1,6 @@
-var path = require('path');
-var port = 3000;
-var srcPath = path.join(__dirname, '/../src');
+const path = require('path');
+const port = 3000;
+const srcPath = path.join(__dirname, '/../src');
 
 module.exports = {
   port: port,
@@ -25,28 +25,23 @@ module.exports = {
       '.jsx'
     ],
     alias: {
-      actions: srcPath + '/actions/',
-      reducers: srcPath + '/reducers/',
-      components: srcPath + '/components/',
-      containers: srcPath + '/containers/',
-      styles: srcPath + '/styles/',
+      actions: srcPath + '/actions',
+      reducers: srcPath + '/reducers',
+      components: srcPath + '/components',
+      containers: srcPath + '/containers',
       config: srcPath + '/config/' + process.env.REACT_WEBPACK_ENV
     }
   },
   module: {
-    preLoaders: [{
-        test: /\.(js|jsx)$/,
-        include: path.join(__dirname, 'src'),
-        loader: 'eslint-loader'
-      }],
     loaders: [
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader!postcss-loader'
+        test: /\.(js|jsx)$/,
+        loader: 'react-hot!babel-loader',
+        include: srcPath,
       },
       {
-        test: /\.styl/,
-        loader: 'style-loader!css-loader!postcss-loader!stylus-loader'
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.(png|jpg|gif|woff|woff2|eot|ttf|svg)$/,
