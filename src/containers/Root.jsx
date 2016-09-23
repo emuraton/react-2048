@@ -6,7 +6,8 @@ import Game from 'components/Game'
 const mapStateToProps = (state) => {
   return {
     score: state.game.get('score'),
-    result: state.game.get('result')
+    result: state.game.get('result'),
+    grid: state.game.get('grid'),
   }
 }
 

@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component, PropTypes} from 'react';
+import Grid from './Grid';
 
 class Game extends Component {
   constructor(props) {
@@ -6,16 +7,18 @@ class Game extends Component {
   }
 
   render() {
-    const {score, result} = this.props;
-
+    const {score, result, grid} = this.props;
 
     return (
       <main>
-        <div id="score">
+        <div id='score'>
           <h3>Score: {score}</h3>
         </div>
         <button onClick={this._handleNewGame}>New Game</button>
         <button onClick={this._handleSaveGame}>Save Game</button>
+        <div id='wrapper'>
+          <Grid size={grid.size}/>
+        </div>
       </main>
     );
   }
@@ -37,6 +40,7 @@ class Game extends Component {
 
 Game.propTypes = {
   score: PropTypes.number.isRequired,
+  grid: PropTypes.object.isRequired,
   result: PropTypes.number,
 }
 

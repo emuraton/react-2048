@@ -1,0 +1,56 @@
+/* Menu */
+main {
+  margin-top: 20px;
+  text-align: center;
+}
+
+button {
+  border: 0;
+  border-radius: 5px;
+  line-height: 30px;
+  color: white;
+  width: 100px;
+  margin: 20px 10px;
+  cursor: pointer;
+  outline: 0;
+}
+
+/* Grid */
+#wrapper {
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  height: 300px;
+  display: block;
+  font-family: sans-serif;
+
+  border-radius: 4px;
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+#grid {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 0;
+}
+
+column {
+  flex: 0 1 64px;
+  line-height: 64px;
+  height: 64px;
+  margin: 4px;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #002B44;
+}
