@@ -19,8 +19,8 @@ process.env.REACT_WEBPACK_ENV = env;
 var configs = {
   base: require(path.join(__dirname, 'cfg/base')),
   dev: require(path.join(__dirname, 'cfg/dev')),
-  // dist: require(path.join(__dirname, 'cfg/dist')),
-  // test: require(path.join(__dirname, 'cfg/test'))
+  dist: require(path.join(__dirname, 'cfg/dist')),
+  test: require(path.join(__dirname, 'cfg/test')),
 };
 
 /**
