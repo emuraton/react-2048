@@ -23,4 +23,8 @@ Grid.propTypes = {
   size: PropTypes.number.isRequired,
 }
 
+Grid.defaultProps = {
+  size: 4
+}
+
 export default Grid;

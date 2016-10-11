@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
     score: state.game.get('score'),
     result: state.game.get('result'),
     grid: state.game.get('grid'),
+    tiles: state.game.get('tiles'),
   }
 }
 
