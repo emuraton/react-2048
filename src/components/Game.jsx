@@ -22,10 +22,6 @@ class Game extends Component {
     }
   }
 
-  _moveTiles(direction) {
-
-  }
-
   render() {
     const {score, result, grid, tiles} = this.props;
 

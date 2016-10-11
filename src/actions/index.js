@@ -18,7 +18,7 @@ export function moveTiles(direction) {
   return dispatch => {
     dispatch({
       type: actionTypes.MOVE_TILES,
-      direction
+      direction,
     });
   };
 }

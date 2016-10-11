@@ -32,7 +32,11 @@ function moveTile(state, tile, direction) {
 
   if(available) {
     state = state.updateIn(['tiles'], arr => arr.delete(available.indexToRemove));
-    state = state.updateIn(['tiles'], arr => arr.push(available.newTile));
+    if(available.indexToMerge === -1) {
+      state = state.updateIn(['tiles'], arr => arr.push(available.newTile));
+    }else {
+      state = state.updateIn(['tiles', available.indexToMerge], tile => available.newTile);
+    }
   }
 
   return state;
@@ -42,7 +46,8 @@ function moveTile(state, tile, direction) {
 * Find an available cell to move the tile
 */
 function findAvailableCell(state, tile, direction) {
-  let available, index;
+  let available, indexToRemove;
+  let indexToMerge = -1;
   const movement = MOVEMENTS[direction];
   const axle = movement[0];
   const from = tile.get(axle);
@@ -50,25 +55,39 @@ function findAvailableCell(state, tile, direction) {
 
   Range(to, from).forEach( i => {
     if(!available) {
-      index = state.get('tiles').findIndex(t => t.get('id') === tile.get('id'));
-      let newTile = Map(tile);
+      indexToRemove = state.get('tiles').findIndex(t => t.get('id') === tile.get('id'));
+      let newTile = tile.asMutable();
       newTile = axle === 'x' ? newTile = newTile.set('x', i) : newTile = newTile.set('y', i);
-      if(isAccessible(state, newTile))  available = newTile;
+      if(isAvailable(state, newTile)) {
+        available = newTile;
+      }else {
+        newTile = newTile.set('value', newTile.get('value')*2);
+        available = Map(newTile);
+        indexToMerge = getIndexMergeable(state, newTile);
+      }
     }
   });
 
-  return available ? {indexToRemove: index, newTile: available} : undefined;
+  return available ? {'indexToRemove': indexToRemove, 'newTile': available, 'indexToMerge': indexToMerge} : undefined;
 }
 
 /**
-* Returns if cell is empty or have th same value than the tile to move.
+* Returns true if cell is empty.
 * Otherwise returns false.
 */
-function isAccessible(state, tile) {
+function isAvailable(state, tile) {
   let tileToGo = state.get('tiles').find(t => {return t.get('x') === tile.get('x') && t.get('y') === tile.get('y')});
+  return tileToGo ? false : true;
+}
 
-  if(!tileToGo || tileToGo.get('value') === tile.get('value')) return true;
-  return false;
+/**
+* Returns true if tiles have the same value.
+* Otherwise returns false.
+*/
+function getIndexMergeable(state, tile) {
+  let index = state.get('tiles').findIndex(t => {return t.get('x') === tile.get('x') && t.get('y') === tile.get('y')});
+
+  return state.getIn(['tiles', index, 'value']) === tile.get('value') ? index : -1;
 }
 
 export default (state = initialState, action) => {
