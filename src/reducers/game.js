@@ -10,8 +10,6 @@ function moveTiles(state, direction) {
   let tiles = state.get('tiles');
   tiles = sortTiles(tiles, direction);
   tiles.forEach(tile => state = moveTile(state, tile, direction));
-
-
   return state;
 }
 

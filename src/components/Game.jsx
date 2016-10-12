@@ -10,6 +10,8 @@ class Game extends Component {
     super(props);
   }
 
+  queue = []
+
   componentDidMount() {
     document.addEventListener('keydown', this._handleKeyDown, false);
   }
@@ -17,8 +19,18 @@ class Game extends Component {
   _handleKeyDown = (e) => {
     const direction = DIRECTIONS[e.keyCode];
     if(direction){
-      // queue.push(direction);
-      this.props.actions.moveTiles(direction);
+      this.queue.push(direction);
+      this._execute();
+    }
+  }
+
+  _execute = async function initalExecute() {
+    if(this.queue.length > 0){
+      await this.props.actions.moveTiles(this.queue[0]);
+      this.queue.shift();
+      if (this.queue.length > 0){
+        this._execute();
+      }
     }
   }
 

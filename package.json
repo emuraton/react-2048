@@ -21,6 +21,7 @@
   "author": "Emilien MURATON",
   "dependencies": {
     "babel": "6.5.2",
+    "babel-polyfill": "6.16.0",
     "classnames": "2.2.5",
     "immutable": "3.8.1",
     "react": "15.3.1",
