@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from 'react';
-import {range} from 'lodash';
+import React, { Component, PropTypes } from 'react';
+import { range } from 'lodash';
 
 class Grid extends Component {
   constructor(props) {

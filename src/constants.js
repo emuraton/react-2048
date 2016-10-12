@@ -10,7 +10,7 @@ export const DIRECTIONS = {
   38: UP,
   37: LEFT,
   40: DOWN,
-  39: RIGHT
+  39: RIGHT,
 };
 
 /**

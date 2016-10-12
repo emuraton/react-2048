@@ -1,7 +1,18 @@
 {
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "parser": "babel-eslint",
   "extends": "airbnb",
   "plugins": [
     "react"
-  ]
+  ],
+  "rules": {
+    "linebreak-style" : ["error", "windows"]
+  }
 }

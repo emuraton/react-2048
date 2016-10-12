@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import Grid from './Grid';
 import Tile from './Tile';
-import {DIRECTIONS} from '../constants';
+import { DIRECTIONS } from '../constants';
 
 let queue = [];
 

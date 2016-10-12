@@ -1,7 +1,7 @@
-import {List, Map, Range} from 'immutable';
+import { Map, Range } from 'immutable';
 import * as types from 'actions/actionTypes';
-import {initialState} from './init';
-import {MOVEMENTS} from '../constants';
+import { initialState } from './init';
+import { MOVEMENTS } from '../constants';
 
 /**
 * Move tiles
@@ -30,12 +30,12 @@ function sortTiles(tiles, direction) {
 function moveTile(state, tile, direction) {
   const available = findAvailableCell(state, tile, direction);
 
-  if(available) {
+  if (available) {
     state = state.updateIn(['tiles'], arr => arr.delete(available.indexToRemove));
-    if(available.indexToMerge === -1) {
+    if (available.indexToMerge === -1) {
       state = state.updateIn(['tiles'], arr => arr.push(available.newTile));
-    }else {
-      state = state.updateIn(['tiles', available.indexToMerge], tile => available.newTile);
+    } else {
+      state = state.updateIn(['tiles', available.indexToMerge], () => available.newTile);
     }
   }
 
@@ -53,22 +53,24 @@ function findAvailableCell(state, tile, direction) {
   const from = tile.get(axle);
   const to = movement[1] < 0 ? 0 : 3;
 
-  Range(to, from).forEach( i => {
-    if(!available) {
+  Range(to, from).forEach(i => {
+    if (!available) {
       indexToRemove = state.get('tiles').findIndex(t => t.get('id') === tile.get('id'));
       let newTile = tile.asMutable();
       newTile = axle === 'x' ? newTile = newTile.set('x', i) : newTile = newTile.set('y', i);
-      if(isAvailable(state, newTile)) {
+      if (isAvailable(state, newTile)) {
         available = newTile;
-      }else {
-        newTile = newTile.set('value', newTile.get('value')*2);
-        available = Map(newTile);
+      } else {
         indexToMerge = getIndexMergeable(state, newTile);
+        if (indexToMerge !== -1) {
+          newTile = newTile.set('value', newTile.get('value') * 2);
+          available = Map(newTile);
+        }
       }
     }
   });
 
-  return available ? {'indexToRemove': indexToRemove, 'newTile': available, 'indexToMerge': indexToMerge} : undefined;
+  return available ? { 'indexToRemove': indexToRemove, 'newTile': available, 'indexToMerge': indexToMerge } : undefined;
 }
 
 /**
@@ -76,8 +78,10 @@ function findAvailableCell(state, tile, direction) {
 * Otherwise returns false.
 */
 function isAvailable(state, tile) {
-  let tileToGo = state.get('tiles').find(t => {return t.get('x') === tile.get('x') && t.get('y') === tile.get('y')});
-  return tileToGo ? false : true;
+  const tileToGo = state.get('tiles').find(t => {
+    return t.get('id') !== tile.get('id') && t.get('x') === tile.get('x') && t.get('y') === tile.get('y');
+  });
+  return !tileToGo;
 }
 
 /**
@@ -85,18 +89,19 @@ function isAvailable(state, tile) {
 * Otherwise returns false.
 */
 function getIndexMergeable(state, tile) {
-  let index = state.get('tiles').findIndex(t => {return t.get('x') === tile.get('x') && t.get('y') === tile.get('y')});
-
+  const index = state.get('tiles').findIndex(t => {
+    return t.get('x') === tile.get('x') && t.get('y') === tile.get('y');
+  });
   return state.getIn(['tiles', index, 'value']) === tile.get('value') ? index : -1;
 }
 
 export default (state = initialState, action) => {
-  switch (action.type){
+  switch (action.type) {
     case types.INIT_GAME:
-      return {...state};
+      return { ...state };
     case types.MOVE_TILES:
       return moveTiles(state, action.direction);
     default:
       return state;
   }
-}
+};

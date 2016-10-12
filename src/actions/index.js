@@ -1,3 +1,4 @@
+/*  eslint arrow-parens: ["error", "as-needed"] */
 import * as actionTypes from './actionTypes';
 
 /**
