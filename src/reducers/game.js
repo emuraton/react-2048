@@ -54,7 +54,8 @@ function findAvailableCell(state, tile, direction) {
   Range(to, from).forEach(i => {
     if (!available) {
       indexToRemove = state.get('tiles').findIndex(t => t.get('id') === tile.get('id'));
-      let newTile = tile.asMutable();
+      let newTile = Map(tile.toJS());
+      newTile = newTile.asMutable();
       newTile = axle === 'x' ? newTile = newTile.set('x', i) : newTile = newTile.set('y', i);
       if (isAvailable(state, newTile)) {
         available = newTile;
