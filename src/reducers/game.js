@@ -30,11 +30,11 @@ function moveTile(state, tile, direction) {
 
   if (available) {
     state = state.updateIn(['tiles'], arr => arr.delete(available.indexToRemove));
-    if (available.indexToMerge === -1) {
-      state = state.updateIn(['tiles'], arr => arr.push(available.newTile));
-    } else {
-      state = state.updateIn(['tiles', available.indexToMerge], () => available.newTile);
+    if (available.idToMerge !== -1) {
+      const index = state.get('tiles').findIndex(t => t.get('id') === available.idToMerge);
+      state = state.updateIn(['tiles'], arr => arr.delete(index));
     }
+    state = state.updateIn(['tiles'], arr => arr.push(available.newTile));
   }
 
   return state;
@@ -45,7 +45,7 @@ function moveTile(state, tile, direction) {
 */
 function findAvailableCell(state, tile, direction) {
   let available, indexToRemove;
-  let indexToMerge = -1;
+  let idToMerge = -1;
   const movement = MOVEMENTS[direction];
   const axle = movement[0];
   const from = tile.get(axle);
@@ -58,18 +58,17 @@ function findAvailableCell(state, tile, direction) {
       newTile = newTile.asMutable();
       newTile = axle === 'x' ? newTile.set('x', i) : newTile.set('y', i);
       if (isAvailable(state, newTile)) {
-        available = newTile;
+        available = Map(newTile);
       } else {
-        indexToMerge = getIndexMergeable(state, newTile);
-        if (indexToMerge !== -1) {
+        idToMerge = getIdMergeable(state, newTile);
+        if (idToMerge !== -1) {
           newTile = newTile.set('value', newTile.get('value') * 2);
           available = Map(newTile);
         }
       }
     }
   });
-
-  return available ? { 'indexToRemove': indexToRemove, 'newTile': available, 'indexToMerge': indexToMerge } : undefined;
+  return available ? { 'indexToRemove': indexToRemove, 'newTile': available, 'idToMerge': idToMerge } : undefined;
 }
 
 /**
@@ -87,11 +86,11 @@ function isAvailable(state, tile) {
 * Returns true if tiles have the same value.
 * Otherwise returns false.
 */
-function getIndexMergeable(state, tile) {
-  const index = state.get('tiles').findIndex(t => {
+function getIdMergeable(state, tile) {
+  const tileMergeable = state.get('tiles').find(t => {
     return t.get('x') === tile.get('x') && t.get('y') === tile.get('y');
   });
-  return state.getIn(['tiles', index, 'value']) === tile.get('value') ? index : -1;
+  return tileMergeable.get('value') === tile.get('value') ? tileMergeable.get('id') : -1;
 }
 
 export default (state = initialState, action) => {

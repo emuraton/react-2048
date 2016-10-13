@@ -27,10 +27,14 @@ class Game extends Component {
   _execute = async function initalExecute() {
     if(this.queue.length > 0){
       await this.props.actions.moveTiles(this.queue[0]);
-      this.queue.shift();
-      if (this.queue.length > 0){
-        this._execute();
-      }
+      this._resolve();
+    }
+  }
+
+  _resolve = () => {
+    this.queue.shift();
+    if (this.queue.length > 0){
+      this._execute();
     }
   }
 
